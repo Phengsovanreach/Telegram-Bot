@@ -1,0 +1,26 @@
+# render.yaml – Render.com deployment manifest
+# Commit this file to your repo root so Render auto-detects the service.
+
+services:
+  - type: web
+    name: telegram-media-bot
+    runtime: python
+    region: oregon          # choose: oregon | frankfurt | singapore | ohio
+    plan: free              # upgrade to starter/standard for always-on
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
+
+    # ── Health check (keeps free tier alive via UptimeRobot etc.) ────────────
+    healthCheckPath: /health
+
+    # ── Environment variables (also set via Render dashboard) ────────────────
+    envVars:
+      - key: BOT_TOKEN
+        sync: false          # set manually in dashboard – never commit secrets
+      - key: WEBHOOK_URL
+        sync: false          # set to your Render URL: https://telegram-media-bot.onrender.com
+      - key: BOT_USERNAME
+        sync: false          # optional: your bot's @username (no @)
+      - key: PYTHON_VERSION
+        value: "3.11.0"
