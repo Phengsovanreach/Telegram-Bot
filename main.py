@@ -1,7 +1,3 @@
-"""
-main.py – FastAPI server + Telegram webhook entrypoint
-Production-ready | python-telegram-bot v21+ | Render.com
-"""
 
 import logging
 import os
